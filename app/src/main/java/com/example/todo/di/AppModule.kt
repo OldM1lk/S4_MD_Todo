@@ -30,10 +30,14 @@ object AppModule {
         ).build()
     }
 
+    @Provides
+    @Singleton
     fun provideTodoRepository(db: TodoDatabase): TodoRepository {
         return TodoRepositoryImpl(db.todoDao)
     }
 
+    @Provides
+    @Singleton
     fun provideTodoUseCases(repository: TodoRepository): TodoUseCases {
         return TodoUseCases(
             addTodo = AddTodo(repository),
