@@ -29,6 +29,13 @@ class TodosViewModel @Inject constructor(
                 }
             }
 
+            is TodosEvent.DeleteTodo -> {
+                viewModelScope.launch {
+                    todoUseCases.deleteTodo(event.todo)
+                    deletedTodo = event.todo
+                }
+            }
+
             TodosEvent.OnUndoDeleteClick -> {
                 deletedTodo?.let {
                     viewModelScope.launch {

@@ -5,8 +5,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +33,12 @@ fun TodoItem(
             modifier = modifier,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            Checkbox(
+                checked = todo.isDone,
+                onCheckedChange = {
+                    onEvent(TodosEvent.OnDoneChange(todo, it))
+                }
+            )
             Column(
                 modifier = Modifier.weight(1f)
             ) {
@@ -51,12 +61,16 @@ fun TodoItem(
                     )
                 }
             }
-            Checkbox(
-                checked = todo.isDone,
-                onCheckedChange = {
-                    onEvent(TodosEvent.OnDoneChange(todo, it))
+            IconButton(
+                onClick = {
+                    onEvent(TodosEvent.DeleteTodo(todo))
                 }
-            )
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Delete todo"
+                )
+            }
         }
     }
 }
