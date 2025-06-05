@@ -14,7 +14,7 @@ data class TodoState(
         .ofPattern("dd MMM yyyy")
         .format(LocalDate.now()),
     val currentTodoDeadlineTime: String = DateTimeFormatter
-        .ofPattern("hh:mm")
+        .ofPattern("HH:mm")
         .format(LocalTime.NOON),
     val currentTodoPriority: String = Todo.todoPriorities[2],
     val currentTodoCategoryId: Int? = null,

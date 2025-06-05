@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.todo.feature_todo.domain.model.Todo
-import com.example.todo.feature_todo.presentation.todos.TodosEvent
 import com.example.todo.feature_todo.presentation.util.Screen
 
 @Composable

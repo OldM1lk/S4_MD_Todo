@@ -2,7 +2,6 @@ package com.example.todo.feature_todo.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Date
 
 @Entity
 data class Todo(

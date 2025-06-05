@@ -2,11 +2,8 @@ package com.example.todo.feature_todo.presentation.todos
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todo.feature_todo.domain.model.Todo
 import com.example.todo.feature_todo.domain.use_case.TodoUseCases
 import com.example.todo.feature_todo.presentation.util.TodoState
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -87,6 +87,7 @@ class AddEditTodoViewModel @Inject constructor(
                     )
                 }
             }
+
             AddEditTodoEvent.ShowPriorityDropDownMenu -> {
                 _todoState.update {
                     it.copy(

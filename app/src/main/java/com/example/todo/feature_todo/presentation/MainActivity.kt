@@ -2,7 +2,6 @@ package com.example.todo.feature_todo.presentation
 
 import android.os.Build
 import android.os.Bundle
-import android.transition.Scene
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
