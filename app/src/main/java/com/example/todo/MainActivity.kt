@@ -1,4 +1,4 @@
-package com.example.todo.feature_todo.presentation
+package com.example.todo
 
 import android.os.Build
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.todo.feature_category.presentation.categories.CategoriesScreen
 import com.example.todo.feature_todo.presentation.add_edit_todo.AddEditTodoScreen
 import com.example.todo.feature_todo.presentation.todos.TodosScreen
 import com.example.todo.feature_todo.presentation.util.Screen
@@ -41,6 +42,9 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             todoId = args.id
                         )
+                    }
+                    composable<Screen.Categories> {
+                        CategoriesScreen(navController = navController)
                     }
                 }
             }

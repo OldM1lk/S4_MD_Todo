@@ -7,5 +7,7 @@ sealed class Screen {
     @Serializable
     object Todos : Screen()
     @Serializable
+    object Categories : Screen()
+    @Serializable
     data class AddEditTodo(val id: Int?) : Screen()
 }
