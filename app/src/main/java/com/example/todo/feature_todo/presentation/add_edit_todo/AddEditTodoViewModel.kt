@@ -1,15 +1,14 @@
 package com.example.todo.feature_todo.presentation.add_edit_todo
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todo.feature_todo.domain.model.Todo
 import com.example.todo.feature_todo.domain.use_case.TodoUseCases
+import com.example.todo.feature_todo.presentation.util.TodoState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,42 +17,39 @@ class AddEditTodoViewModel @Inject constructor(
     private val todoUseCases: TodoUseCases
 ) : ViewModel() {
 
-    var todo by mutableStateOf<Todo?>(null)
-        private set
-    var title by mutableStateOf("")
-        private set
-    var description by mutableStateOf("")
-        private set
-    var deadline by mutableLongStateOf(0)
-        private set
-    var priority by mutableIntStateOf(0)
-        private set
+    private val _todoState = MutableStateFlow(TodoState())
+    val todoState: StateFlow<TodoState> = _todoState
 
     fun onEvent(event: AddEditTodoEvent) {
         when (event) {
-            is AddEditTodoEvent.OnDeadlineChange -> {
-                deadline = event.deadline
-            }
-
             is AddEditTodoEvent.OnDescriptionChange -> {
-                description = event.description
+                _todoState.update {
+                    it.copy(
+                        currentTodoDescription = event.description
+                    )
+                }
             }
 
             is AddEditTodoEvent.OnPriorityChange -> {
-                priority = event.priority
+                _todoState.update {
+                    it.copy(
+                        currentTodoPriority = event.priority
+                    )
+                }
             }
 
             AddEditTodoEvent.OnSaveTodoClick -> {
                 viewModelScope.launch {
-                    if (title.isNotBlank() && deadline.toInt() != 0) {
+                    if (_todoState.value.currentTodoTitle.isNotBlank()) {
                         todoUseCases.addTodo(
                             Todo(
-                                id = todo?.id,
-                                title = title,
-                                description = description,
-                                deadline = deadline,
-                                priority = priority,
-                                isDone = todo?.isDone == false
+                                id = _todoState.value.currentTodoId,
+                                title = _todoState.value.currentTodoTitle,
+                                description = _todoState.value.currentTodoDescription,
+                                deadlineDate = _todoState.value.currentTodoDeadlineDate,
+                                deadlineTime = _todoState.value.currentTodoDeadlineTime,
+                                priority = _todoState.value.currentTodoPriority,
+                                isDone = _todoState.value.isCurrentTodoDone
                             )
                         )
                     }
@@ -61,14 +57,70 @@ class AddEditTodoViewModel @Inject constructor(
             }
 
             is AddEditTodoEvent.OnTitleChange -> {
-                title = event.title
+                _todoState.update {
+                    it.copy(
+                        currentTodoTitle = event.title
+                    )
+                }
+            }
+
+            is AddEditTodoEvent.OnDeadlineDateChange -> {
+                _todoState.update {
+                    it.copy(
+                        currentTodoDeadlineDate = event.date
+                    )
+                }
+            }
+
+            is AddEditTodoEvent.OnDeadlineTimeChange -> {
+                _todoState.update {
+                    it.copy(
+                        currentTodoDeadlineTime = event.time
+                    )
+                }
+            }
+
+            AddEditTodoEvent.HidePriorityDropDownMenu -> {
+                _todoState.update {
+                    it.copy(
+                        isPriorityDropDownMenuExpanded = false
+                    )
+                }
+            }
+            AddEditTodoEvent.ShowPriorityDropDownMenu -> {
+                _todoState.update {
+                    it.copy(
+                        isPriorityDropDownMenuExpanded = true
+                    )
+                }
+            }
+
+            is AddEditTodoEvent.OnPriorityDropDownMenuExpandedChange -> {
+                _todoState.update {
+                    it.copy(
+                        isPriorityDropDownMenuExpanded = event.expanded
+                    )
+                }
             }
         }
     }
 
     fun getTodoById(id: Int) {
         viewModelScope.launch {
-            todo = todoUseCases.getTodo(id)
+            val todo = todoUseCases.getTodo(id)
+            todo?.let {
+                _todoState.update {
+                    it.copy(
+                        currentTodoId = id,
+                        currentTodoTitle = todo.title,
+                        currentTodoDeadlineDate = todo.deadlineDate,
+                        currentTodoDeadlineTime = todo.deadlineTime,
+                        currentTodoPriority = todo.priority,
+                        currentTodoDescription = todo.description ?: "",
+                        isCurrentTodoDone = todo.isDone
+                    )
+                }
+            }
         }
     }
 }

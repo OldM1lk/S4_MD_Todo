@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed class Screen {
-    object Todos: Screen()
-    data class AddEditTodo(val id: Int?): Screen()
+    @Serializable object Todos: Screen()
+    @Serializable data class AddEditTodo(val id: Int?): Screen()
 }

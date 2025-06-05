@@ -5,6 +5,7 @@ plugins {
 
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -31,6 +32,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
@@ -67,8 +69,12 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.material)
+    implementation(libs.datetime)
+    implementation(libs.kotlinx.serialization.json)
 
     ksp(libs.hilt.android.compiler)
     ksp(libs.androidx.hilt.compiler)
     ksp(libs.androidx.room.compiler)
+
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
