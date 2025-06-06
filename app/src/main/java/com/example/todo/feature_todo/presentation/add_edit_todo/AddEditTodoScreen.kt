@@ -2,6 +2,9 @@ package com.example.todo.feature_todo.presentation.add_edit_todo
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.todo.feature_todo.presentation.FAB_EXPLODE_BOUNDS_KEY
 import com.example.todo.feature_todo.presentation.add_edit_todo.components.CategoriesDropDownMenu
 import com.example.todo.feature_todo.presentation.add_edit_todo.components.PrioritiesDropDownMenu
 import com.vanpra.composematerialdialogs.MaterialDialog
@@ -48,9 +52,11 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterial3Api::class)
-fun AddEditTodoScreen(
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
+fun SharedTransitionScope.AddEditTodoScreen(
+    modifier: Modifier = Modifier,
     navController: NavController,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     todoId: Int? = null,
     viewModel: AddEditTodoViewModel = hiltViewModel()
 ) {
@@ -104,7 +110,6 @@ fun AddEditTodoScreen(
             viewModel.onEvent(AddEditTodoEvent.OnDeadlineDateChange(formattedDate))
         }
     }
-
     MaterialDialog(
         dialogState = timeDialogState,
         buttons = {
@@ -132,7 +137,13 @@ fun AddEditTodoScreen(
                 onClick = {
                     viewModel.onEvent(AddEditTodoEvent.OnSaveTodoClick)
                     navController.navigateUp()
-                }
+                },
+                modifier = Modifier.sharedBounds(
+                    sharedContentState = rememberSharedContentState(
+                        key = FAB_EXPLODE_BOUNDS_KEY
+                    ),
+                    animatedVisibilityScope = animatedVisibilityScope
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.Check,
