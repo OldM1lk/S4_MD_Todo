@@ -3,13 +3,14 @@ package com.example.todo.feature_todo.presentation.add_edit_todo.components
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ExposedDropdownMenuBox
-import androidx.compose.material.Text
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,7 +22,7 @@ import com.example.todo.feature_todo.presentation.add_edit_todo.AddEditTodoViewM
 
 @Composable
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
-fun PriorityDropDownMenu(
+fun PrioritiesDropDownMenu(
     viewModel: AddEditTodoViewModel = hiltViewModel()
 ) {
 
@@ -45,7 +46,12 @@ fun PriorityDropDownMenu(
                     expanded = todoState.value.isPriorityDropDownMenuExpanded
                 )
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(
+                    MenuAnchorType.PrimaryNotEditable,
+                    enabled = true
+                )
         )
         ExposedDropdownMenu(
             expanded = todoState.value.isPriorityDropDownMenuExpanded,

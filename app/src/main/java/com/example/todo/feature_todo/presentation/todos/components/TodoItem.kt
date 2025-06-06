@@ -67,6 +67,13 @@ fun TodoItem(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    if (todo.category != null) {
+                        Text(
+                            text = todo.category,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Spacer(Modifier.width(8.dp))
+                    }
                     Text(
                         text = todo.deadlineDate,
                         style = MaterialTheme.typography.bodyMedium
