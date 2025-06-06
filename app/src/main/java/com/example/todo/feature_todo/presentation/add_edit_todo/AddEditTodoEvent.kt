@@ -10,4 +10,7 @@ sealed class AddEditTodoEvent {
     object ShowPriorityDropDownMenu : AddEditTodoEvent()
     object HidePriorityDropDownMenu : AddEditTodoEvent()
     data class OnPriorityDropDownMenuExpandedChange(val expanded: Boolean) : AddEditTodoEvent()
+    data class OnCategoryDropDownMenuExpandedChange(val expanded: Boolean) : AddEditTodoEvent()
+    object HideCategoryDropDownMenu : AddEditTodoEvent()
+    data class OnCategoryChange(val category: String) : AddEditTodoEvent()
 }

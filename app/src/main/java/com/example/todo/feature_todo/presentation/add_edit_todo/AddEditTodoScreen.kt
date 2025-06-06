@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.todo.feature_todo.domain.model.Todo
-import com.example.todo.feature_todo.presentation.add_edit_todo.components.DropDown
+import com.example.todo.feature_todo.presentation.add_edit_todo.components.CategoriesDropDownMenu
+import com.example.todo.feature_todo.presentation.add_edit_todo.components.PrioritiesDropDownMenu
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
@@ -195,13 +195,8 @@ fun AddEditTodoScreen(
                     }
                 }
             }
-            DropDown(
-                label = "Priority",
-                options = Todo.todoPriorities,
-                onSelect = {
-                    viewModel.onEvent(AddEditTodoEvent.OnPriorityChange(it))
-                }
-            )
+            PrioritiesDropDownMenu()
+            CategoriesDropDownMenu()
             OutlinedTextField(
                 label = { Text("Description") },
                 value = todoState.value.currentTodoDescription,

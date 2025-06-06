@@ -13,6 +13,7 @@ data class Todo(
     val deadlineTime: String,
     val priority: String,
     val isDone: Boolean,
+    val category: String?
 ) {
     companion object {
         val todoPriorities = listOf("High", "Medium", "Low")

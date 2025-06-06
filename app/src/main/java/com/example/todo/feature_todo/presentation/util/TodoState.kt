@@ -17,7 +17,7 @@ data class TodoState(
         .ofPattern("HH:mm")
         .format(LocalTime.NOON),
     val currentTodoPriority: String = Todo.todoPriorities[2],
-    val currentTodoCategoryId: Int? = null,
+    val currentTodoCategory: String? = null,
     val currentTodoDescription: String = "",
     val isCurrentTodoDone: Boolean = false,
     val todos: Flow<List<Todo>> = emptyFlow(),
