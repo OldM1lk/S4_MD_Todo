@@ -2,6 +2,9 @@ package com.example.todo.feature_todo.presentation.todos
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,14 +25,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.todo.feature_todo.presentation.FAB_EXPLODE_BOUNDS_KEY
 import com.example.todo.feature_todo.presentation.todos.components.TodoItem
 import com.example.todo.feature_todo.presentation.util.Screen
 import kotlinx.coroutines.launch
 
 @Composable
 @RequiresApi(Build.VERSION_CODES.O)
-fun TodosScreen(
+@OptIn(ExperimentalSharedTransitionApi::class)
+fun SharedTransitionScope.TodosScreen(
     navController: NavController,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     viewModel: TodosViewModel = hiltViewModel()
 ) {
     val todoState = viewModel.todoState.collectAsState()
@@ -46,7 +52,13 @@ fun TodosScreen(
                             id = null
                         )
                     )
-                }
+                },
+                modifier = Modifier.sharedBounds(
+                    sharedContentState = rememberSharedContentState(
+                        key = FAB_EXPLODE_BOUNDS_KEY
+                    ),
+                    animatedVisibilityScope = animatedVisibilityScope
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
