@@ -20,6 +20,16 @@ class AddEditTodoViewModel @Inject constructor(
     private val _todoState = MutableStateFlow(TodoState())
     val todoState: StateFlow<TodoState> = _todoState
 
+    val categories = listOf(
+        "Work",
+        "Home",
+        "Study",
+        "Health",
+        "Shopping",
+        "Personal",
+        "Finance"
+    )
+
     fun onEvent(event: AddEditTodoEvent) {
         when (event) {
             is AddEditTodoEvent.OnDescriptionChange -> {
@@ -49,7 +59,8 @@ class AddEditTodoViewModel @Inject constructor(
                                 deadlineDate = _todoState.value.currentTodoDeadlineDate,
                                 deadlineTime = _todoState.value.currentTodoDeadlineTime,
                                 priority = _todoState.value.currentTodoPriority,
-                                isDone = _todoState.value.isCurrentTodoDone
+                                isDone = _todoState.value.isCurrentTodoDone,
+                                category = _todoState.value.currentTodoCategory
                             )
                         )
                     }
@@ -103,6 +114,30 @@ class AddEditTodoViewModel @Inject constructor(
                     )
                 }
             }
+
+            is AddEditTodoEvent.OnCategoryDropDownMenuExpandedChange -> {
+                _todoState.update {
+                    it.copy(
+                        isCategoryDropDownMenuExpanded = event.expanded
+                    )
+                }
+            }
+
+            AddEditTodoEvent.HideCategoryDropDownMenu -> {
+                _todoState.update {
+                    it.copy(
+                        isCategoryDropDownMenuExpanded = false
+                    )
+                }
+            }
+
+            is AddEditTodoEvent.OnCategoryChange -> {
+                _todoState.update {
+                    it.copy(
+                        currentTodoCategory = event.category
+                    )
+                }
+            }
         }
     }
 
@@ -118,7 +153,8 @@ class AddEditTodoViewModel @Inject constructor(
                         currentTodoDeadlineTime = todo.deadlineTime,
                         currentTodoPriority = todo.priority,
                         currentTodoDescription = todo.description ?: "",
-                        isCurrentTodoDone = todo.isDone
+                        isCurrentTodoDone = todo.isDone,
+                        currentTodoCategory = todo.category
                     )
                 }
             }

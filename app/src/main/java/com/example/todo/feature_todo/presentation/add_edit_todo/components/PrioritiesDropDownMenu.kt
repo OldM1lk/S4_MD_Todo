@@ -12,52 +12,52 @@ import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.todo.feature_todo.domain.model.Todo
+import com.example.todo.feature_todo.presentation.add_edit_todo.AddEditTodoEvent
+import com.example.todo.feature_todo.presentation.add_edit_todo.AddEditTodoViewModel
 
 @Composable
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
-fun DropDown(
-    label: String,
-    options: List<String>,
-    onSelect: (String) -> Unit,
+fun PrioritiesDropDownMenu(
+    viewModel: AddEditTodoViewModel = hiltViewModel()
 ) {
 
-    var expanded by rememberSaveable { mutableStateOf(false) }
-    var selectedOption by remember { mutableStateOf(options.first()) }
+    val todoState = viewModel.todoState.collectAsStateWithLifecycle()
 
     ExposedDropdownMenuBox(
-        expanded = expanded,
+        expanded = todoState.value.isPriorityDropDownMenuExpanded,
         onExpandedChange = {
-            expanded = it
+            viewModel.onEvent(AddEditTodoEvent.OnPriorityDropDownMenuExpandedChange(it))
         },
         modifier = Modifier
             .fillMaxWidth()
     ) {
         OutlinedTextField(
-            value = selectedOption,
+            value = todoState.value.currentTodoPriority,
             onValueChange = {},
             readOnly = true,
-            label = { Text(label) },
+            label = { Text("Priority") },
             trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                ExposedDropdownMenuDefaults.TrailingIcon(
+                    expanded = todoState.value.isPriorityDropDownMenuExpanded
+                )
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .menuAnchor(
-                    type = MenuAnchorType.SecondaryEditable,
+                    MenuAnchorType.PrimaryNotEditable,
                     enabled = true
                 )
         )
         ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
+            expanded = todoState.value.isPriorityDropDownMenuExpanded,
+            onDismissRequest = {
+                viewModel.onEvent(AddEditTodoEvent.HidePriorityDropDownMenu)
+            }
         ) {
             Todo.todoPriorities.forEach {
                 DropdownMenuItem(
@@ -68,9 +68,8 @@ fun DropDown(
                         )
                     },
                     onClick = {
-                        selectedOption = it
-                        onSelect(it)
-                        expanded = false
+                        viewModel.onEvent(AddEditTodoEvent.OnPriorityChange(it))
+                        viewModel.onEvent(AddEditTodoEvent.HidePriorityDropDownMenu)
                     },
                     modifier = Modifier
                         .fillMaxWidth()
