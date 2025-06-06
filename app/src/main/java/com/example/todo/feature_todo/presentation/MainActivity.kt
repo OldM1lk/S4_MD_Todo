@@ -1,4 +1,4 @@
-package com.example.todo
+package com.example.todo.feature_todo.presentation
 
 import android.os.Build
 import android.os.Bundle
@@ -58,9 +58,9 @@ class MainActivity : ComponentActivity() {
                                 )
                             )
                         }
-                    }
-                    composable<Screen.Categories> {
-                        CategoriesScreen(navController = navController)
+                        composable<Screen.Categories> {
+                            CategoriesScreen(navController = navController)
+                        }
                     }
                 }
             }
