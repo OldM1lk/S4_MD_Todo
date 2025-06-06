@@ -12,16 +12,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,7 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.todo.feature_todo.presentation.add_edit_todo.components.PriorityDropDownMenu
+import com.example.todo.feature_todo.domain.model.Todo
+import com.example.todo.feature_todo.presentation.add_edit_todo.components.DropDown
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
@@ -194,7 +195,13 @@ fun AddEditTodoScreen(
                     }
                 }
             }
-            PriorityDropDownMenu()
+            DropDown(
+                label = "Priority",
+                options = Todo.todoPriorities,
+                onSelect = {
+                    viewModel.onEvent(AddEditTodoEvent.OnPriorityChange(it))
+                }
+            )
             OutlinedTextField(
                 label = { Text("Description") },
                 value = todoState.value.currentTodoDescription,
