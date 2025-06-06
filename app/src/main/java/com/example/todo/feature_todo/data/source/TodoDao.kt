@@ -16,6 +16,9 @@ interface TodoDao {
     @Delete
     suspend fun deleteTodo(todo: Todo)
 
+    @Query("SELECT * FROM todo WHERE category = :category")
+    fun getTodosByCategory(category: String): Flow<List<Todo>>
+
     @Query("SELECT * FROM todo WHERE id = :id")
     suspend fun getTodoById(id: Int): Todo?
 

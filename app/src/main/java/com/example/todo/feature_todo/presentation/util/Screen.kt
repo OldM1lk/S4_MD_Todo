@@ -10,4 +10,6 @@ sealed class Screen {
     object Categories : Screen()
     @Serializable
     data class AddEditTodo(val id: Int?) : Screen()
+    @Serializable
+    data class FilteredTodos(val category: String) : Screen()
 }

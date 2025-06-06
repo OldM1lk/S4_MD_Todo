@@ -51,7 +51,8 @@ import kotlinx.coroutines.launch
 fun SharedTransitionScope.TodosScreen(
     navController: NavController,
     animatedVisibilityScope: AnimatedVisibilityScope,
-    viewModel: TodosViewModel = hiltViewModel()
+    viewModel: TodosViewModel = hiltViewModel(),
+    initialCategory: String? = null
 ) {
     val todoState = viewModel.todoState.collectAsState()
     val todos = todoState.value.todos.collectAsState(emptyList())
@@ -71,6 +72,11 @@ fun SharedTransitionScope.TodosScreen(
             selectedTabIndex = pagerState.currentPage
         }
     }
+    /*LaunchedEffect(initialCategory) {
+        initialCategory?.let {
+            viewModel.onEvent(TodosEvent.FilterByCategory(it))
+        }
+    }*/
 
     Scaffold(
         floatingActionButton = {
@@ -101,7 +107,7 @@ fun SharedTransitionScope.TodosScreen(
             modifier = Modifier
                 .padding(it)
                 .statusBarsPadding()
-                .padding(top = 64.dp)
+                .padding(top = 96.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -129,7 +135,6 @@ fun SharedTransitionScope.TodosScreen(
         }
     }
 
-
     Column(modifier = Modifier.statusBarsPadding()) {
         TabRow(selectedTabIndex = selectedTabIndex) {
             tabItems.forEachIndexed { index, item ->
@@ -156,7 +161,7 @@ fun SharedTransitionScope.TodosScreen(
                 )
             }
 
-            /*HorizontalPager(
+            HorizontalPager(
                 state = pagerState,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -168,7 +173,7 @@ fun SharedTransitionScope.TodosScreen(
                 ) {
                     Text(text = tabItems[index].title)
                 }
-            }*/
+            }
         }
     }
 }

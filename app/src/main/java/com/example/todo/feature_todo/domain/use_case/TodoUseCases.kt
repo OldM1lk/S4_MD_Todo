@@ -4,5 +4,6 @@ data class TodoUseCases(
     val addTodo: AddTodo,
     val deleteTodo: DeleteTodo,
     val getTodo: GetTodo,
-    val getTodos: GetTodos
+    val getTodos: GetTodos,
+    val getTodosByCategory: GetTodosByCategory
 )

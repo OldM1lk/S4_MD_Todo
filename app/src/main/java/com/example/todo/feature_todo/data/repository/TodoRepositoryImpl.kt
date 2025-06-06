@@ -24,4 +24,8 @@ class TodoRepositoryImpl(
     override fun getTodos(): Flow<List<Todo>> {
         return dao.getTodos()
     }
+
+    override fun getTodosByCategory(category: String): Flow<List<Todo>> {
+        return dao.getTodosByCategory(category)
+    }
 }

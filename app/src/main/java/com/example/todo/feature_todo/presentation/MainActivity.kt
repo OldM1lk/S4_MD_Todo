@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -58,8 +59,19 @@ class MainActivity : ComponentActivity() {
                                 )
                             )
                         }
+
                         composable<Screen.Categories> {
                             CategoriesScreen(navController = navController)
+                        }
+
+                        composable<Screen.FilteredTodos> {
+                            val args = it.toRoute<Screen.FilteredTodos>()
+                            TodosScreen(
+                                navController = navController,
+                                animatedVisibilityScope = this,
+                                viewModel = hiltViewModel(),
+                                initialCategory = args.category
+                            )
                         }
                     }
                 }
