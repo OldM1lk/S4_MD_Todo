@@ -67,9 +67,7 @@ class MainActivity : ComponentActivity() {
                             val args = it.toRoute<Screen.FilteredTodos>()
                             TodosScreen(
                                 navController = navController,
-                                animatedVisibilityScope = this,
-                                viewModel = hiltViewModel(),
-                                initialCategory = args.category
+                                animatedVisibilityScope = this
                             )
                         }
                     }
