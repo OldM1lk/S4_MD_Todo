@@ -6,15 +6,12 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarResult
@@ -34,7 +31,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -51,8 +47,6 @@ import kotlinx.coroutines.launch
 fun SharedTransitionScope.TodosScreen(
     navController: NavController,
     animatedVisibilityScope: AnimatedVisibilityScope,
-    viewModel: TodosViewModel = hiltViewModel(),
-    initialCategory: String? = null,
     viewModel: TodosViewModel = hiltViewModel()
 ) {
     val todoState = viewModel.todoState.collectAsState()
@@ -157,7 +151,7 @@ fun SharedTransitionScope.TodosScreen(
                 )
             }
 
-            HorizontalPager(
+            /*HorizontalPager(
                 state = pagerState,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -169,7 +163,7 @@ fun SharedTransitionScope.TodosScreen(
                 ) {
                     Text(text = tabItems[index].title)
                 }
-            }
+            }*/
         }
     }
 }
