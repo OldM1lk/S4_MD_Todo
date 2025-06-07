@@ -34,7 +34,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -51,8 +50,6 @@ import kotlinx.coroutines.launch
 fun SharedTransitionScope.TodosScreen(
     navController: NavController,
     animatedVisibilityScope: AnimatedVisibilityScope,
-    viewModel: TodosViewModel = hiltViewModel(),
-    initialCategory: String? = null,
     viewModel: TodosViewModel = hiltViewModel()
 ) {
     val todoState = viewModel.todoState.collectAsState()
@@ -157,19 +154,19 @@ fun SharedTransitionScope.TodosScreen(
                 )
             }
 
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) { index ->
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = tabItems[index].title)
-                }
-            }
+//            HorizontalPager(
+//                state = pagerState,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .weight(1f)
+//            ) { index ->
+//                Box(
+//                    modifier = Modifier.fillMaxSize(),
+//                    contentAlignment = Alignment.Center
+//                ) {
+//                    Text(text = tabItems[index].title)
+//                }
+//            }
         }
     }
 }
