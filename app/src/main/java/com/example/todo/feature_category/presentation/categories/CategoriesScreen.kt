@@ -1,6 +1,9 @@
 package com.example.todo.feature_category.presentation.categories
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,6 +25,9 @@ import com.example.todo.feature_category.presentation.categories.components.Cate
 import com.example.todo.feature_todo.presentation.todos.components.tabItems
 import com.example.todo.feature_todo.presentation.util.Screen
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.ui.Alignment
 
 @Composable
 fun CategoriesScreen(
@@ -32,6 +38,9 @@ fun CategoriesScreen(
         mutableIntStateOf(1)
     }
     val categories = listOf("All", "Work", "Home", "Study", "Health", "Shopping", "Personal", "Finance")
+    val pagerState = rememberPagerState {
+        tabItems.size
+    }
 
     LazyColumn(modifier = Modifier.padding(top = 64.dp)) {
         item {
@@ -82,7 +91,7 @@ fun CategoriesScreen(
             }
         }
 
-        /*HorizontalPager(
+        HorizontalPager(
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
@@ -94,6 +103,6 @@ fun CategoriesScreen(
             ) {
                 Text(text = tabItems[index].title)
             }
-        }*/
+        }
     }
 }
