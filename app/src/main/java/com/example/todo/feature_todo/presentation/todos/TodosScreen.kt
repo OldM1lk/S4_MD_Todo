@@ -47,7 +47,8 @@ import kotlinx.coroutines.launch
 fun SharedTransitionScope.TodosScreen(
     navController: NavController,
     animatedVisibilityScope: AnimatedVisibilityScope,
-    viewModel: TodosViewModel = hiltViewModel()
+    viewModel: TodosViewModel = hiltViewModel(),
+    initialCategory: String?
 ) {
     val todoState = viewModel.todoState.collectAsState()
     val todos = todoState.value.todos.collectAsState(emptyList())
@@ -65,6 +66,11 @@ fun SharedTransitionScope.TodosScreen(
     LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
         if(!pagerState.isScrollInProgress) {
             selectedTabIndex = pagerState.currentPage
+        }
+    }
+    LaunchedEffect(initialCategory) {
+        initialCategory?.let {
+            viewModel.onEvent(TodosEvent.FilterByCategory(it))
         }
     }
 
