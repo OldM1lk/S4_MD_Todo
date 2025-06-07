@@ -52,7 +52,8 @@ fun SharedTransitionScope.TodosScreen(
     navController: NavController,
     animatedVisibilityScope: AnimatedVisibilityScope,
     viewModel: TodosViewModel = hiltViewModel(),
-    initialCategory: String? = null
+    initialCategory: String? = null,
+    viewModel: TodosViewModel = hiltViewModel()
 ) {
     val todoState = viewModel.todoState.collectAsState()
     val todos = todoState.value.todos.collectAsState(emptyList())
@@ -72,11 +73,6 @@ fun SharedTransitionScope.TodosScreen(
             selectedTabIndex = pagerState.currentPage
         }
     }
-    /*LaunchedEffect(initialCategory) {
-        initialCategory?.let {
-            viewModel.onEvent(TodosEvent.FilterByCategory(it))
-        }
-    }*/
 
     Scaffold(
         floatingActionButton = {
