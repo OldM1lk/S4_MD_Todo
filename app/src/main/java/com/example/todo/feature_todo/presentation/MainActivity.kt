@@ -9,10 +9,12 @@ import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.todo.feature_category.presentation.categories.CategoriesScreen
 import com.example.todo.feature_todo.presentation.add_edit_todo.AddEditTodoScreen
 import com.example.todo.feature_todo.presentation.todos.TodosScreen
 import com.example.todo.feature_todo.presentation.util.Screen
@@ -55,6 +57,19 @@ class MainActivity : ComponentActivity() {
                                     ),
                                     animatedVisibilityScope = this
                                 )
+                            )
+                        }
+                        composable<Screen.Categories> {
+                            CategoriesScreen(navController = navController)
+                        }
+
+                        composable<Screen.FilteredTodos> {
+                            val args = it.toRoute<Screen.FilteredTodos>()
+                            TodosScreen(
+                                navController = navController,
+                                animatedVisibilityScope = this,
+                                viewModel = hiltViewModel(),
+                                initialCategory = args.category
                             )
                         }
                     }

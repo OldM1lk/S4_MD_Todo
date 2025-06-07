@@ -9,6 +9,7 @@ import com.example.todo.feature_todo.domain.use_case.AddTodo
 import com.example.todo.feature_todo.domain.use_case.DeleteTodo
 import com.example.todo.feature_todo.domain.use_case.GetTodo
 import com.example.todo.feature_todo.domain.use_case.GetTodos
+import com.example.todo.feature_todo.domain.use_case.GetTodosByCategory
 import com.example.todo.feature_todo.domain.use_case.TodoUseCases
 import dagger.Module
 import dagger.Provides
@@ -43,7 +44,8 @@ object AppModule {
             addTodo = AddTodo(repository),
             deleteTodo = DeleteTodo(repository),
             getTodo = GetTodo(repository),
-            getTodos = GetTodos(repository)
+            getTodos = GetTodos(repository),
+            getTodosByCategory = GetTodosByCategory(repository)
         )
     }
 }

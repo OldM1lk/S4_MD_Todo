@@ -59,6 +59,15 @@ class TodosViewModel @Inject constructor(
                     }
                 }
             }
+
+            is TodosEvent.FilterByCategory -> {
+                _todoState.update { state ->
+                    state.copy(
+                        currentTodoCategory = event.category,
+                        todos = todoUseCases.getTodosByCategory(event.category.toString())
+                    )
+                }
+            }
         }
     }
 }
